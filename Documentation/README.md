@@ -142,7 +142,7 @@ See [BUILD_INSTRUCTIONS.md](BUILD_INSTRUCTIONS.md) for detailed compilation inst
 Quick start:
 ```bash
 make           # Compile the project
-./bin/dungeon_rpg     # Run the game
+./bin/rpg_game     # Run the game
 make clean     # Remove compiled files
 ```
 
@@ -168,7 +168,7 @@ make clean     # Remove compiled files
 Use valgrind to check for memory leaks:
 ```bash
 make
-valgrind --leak-check=full ./bin/dungeon_rpg
+valgrind --leak-check=full ./bin/rpg_game
 ```
 
 All memory should be properly freed - no leaks!

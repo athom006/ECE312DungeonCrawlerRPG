@@ -20,6 +20,14 @@
  */
 
 int main() {
+    Character hero("Hero", 100, 10, 5);
+    hero.displayStats();
+    hero.takeDamage(20);
+    hero.heal(10);
+    return 0;
+}
+
+/*int main() {
     // Seed random number generator for combat calculations
     // This ensures different random numbers each time the game runs
     srand(static_cast<unsigned int>(time(0)));
@@ -40,4 +48,4 @@ int main() {
     
     // Normal exit
     return 0;
-}
+}*/
