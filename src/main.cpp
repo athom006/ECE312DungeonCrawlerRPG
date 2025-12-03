@@ -20,10 +20,13 @@
  */
 
 int main() {
-    Character hero("Hero", 100, 10, 5);
-    hero.displayStats();
-    hero.takeDamage(20);
-    hero.heal(10);
+    Item sword("Iron Sword", "A sturdy blade", "Weapon", 5);
+    Item armor("Leather Armor", "Basic protection", "Armor", 3);
+    Item potion("Health Potion", "Restores health", "Consumable", 20);
+    
+    sword.displayInfo();
+    armor.displayInfo();
+    potion.displayInfo();
     return 0;
 }
 
