@@ -20,13 +20,25 @@
  */
 
 int main() {
-    Item sword("Iron Sword", "A sturdy blade", "Weapon", 5);
-    Item armor("Leather Armor", "Basic protection", "Armor", 3);
-    Item potion("Health Potion", "Restores health", "Consumable", 20);
-    
+
+    Weapon sword("Iron Sword", "A sturdy blade", 5);
+    Armor shield("Wooden Shield", "Basic protection", 3);
+    Consumable potion("Health Potion", "Restores health", 20);
+
     sword.displayInfo();
-    armor.displayInfo();
+    shield.displayInfo();
     potion.displayInfo();
+
+    Item* item_ptr = &sword;
+    item_ptr->displayInfo();  // Should call Weapon version
+    item_ptr = &shield;
+    item_ptr->displayInfo();  // Should call Armor version
+    item_ptr = &potion;
+    item_ptr->displayInfo();  // Should call Consumable version 
+
+    potion.use();  // Should work
+    potion.use();  // Should print "already used"
+
     return 0;
 }
 
