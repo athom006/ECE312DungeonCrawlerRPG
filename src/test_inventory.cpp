@@ -10,12 +10,12 @@ int main() {
     inventory.push_back(new Consumable("Potion", "Heals", 20));
     
     // Display all
-    for (long unsigned int i = 0; i < inventory.size(); i++) {
+    for (int i = 0; i < inventory.size(); i++) {
         inventory[i]->displayInfo();
     }
     
     // Clean up - VERY IMPORTANT!
-    for (long unsigned int i = 0; i < inventory.size(); i++) {
+    for (int i = 0; i < inventory.size(); i++) {
         delete inventory[i];
     }
     inventory.clear();
