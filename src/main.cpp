@@ -20,10 +20,12 @@
  */
 
 int main() {
-    Player hero("Alice");
-    hero.displayStats();
-    hero.takeDamage(20);  // Inherited method
-    hero.displayStats();
+    Player hero("Bob");
+    hero.addItem(new Weapon("Sword", "Sharp", 5));
+    hero.addItem(new Consumable("Potion", "Heals", 20));
+    hero.displayInventory();
+    hero.removeItem("potion");  // Case insensitive
+    hero.displayInventory();
     return 0;
 }
 
