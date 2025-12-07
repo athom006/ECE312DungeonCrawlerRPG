@@ -337,6 +337,11 @@ void Player::useItem(const std::string& item_name) {
 //
 void Player::gainExperience(int exp) {
     // TODO: Add experience and check for level up
+    experience += exp;
+    std::cout << "Gained " << exp << " experience points." << std::endl;
+    if (experience >= level * 100) {
+        levelUp();
+    }
 }
 
 
@@ -354,4 +359,12 @@ void Player::gainExperience(int exp) {
 //
 void Player::levelUp() {
     // TODO: Level up the player
+    level++;
+    experience = 0;
+    setMaxHP(getMaxHP() + 10);
+    setCurrentHP(getMaxHP());
+    setAttack(getAttack() + 2);
+    setDefense(getDefense() + 1);
+    std::cout << "Congratulations! You leveled up to level " << level << "!" << std::endl;
+    displayStats();
 }

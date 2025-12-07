@@ -20,18 +20,10 @@
  */
 
 int main() {
-    Player hero("Charlie");
-    hero.addItem(new Weapon("Sword", "Sharp", 5));
-    hero.addItem(new Armor("Chainmail", "Strong", 3));
-    
-    hero.equipWeapon("sword");
-    hero.equipArmor("chainmail");
-    
+    Player hero("Dana");
     hero.displayStats();
-    
-    int dmg = hero.calculateDamage();
-    std::cout << "Damage: " << dmg << std::endl;  // Should include weapon bonus
-    
+    hero.gainExperience(100);  // Should trigger level up
+    hero.displayStats();
     return 0;
 }
 
