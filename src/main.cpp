@@ -20,15 +20,23 @@
  */
 
 int main() {
-    Monster orc("Orc", 50, 8, 3, 20, 10);
-    orc.addLoot(new Consumable("Potion", "Heals", 15));
-    orc.displayStats();
-    orc.takeDamage(30);
-    orc.getAttackMessage();
+    // Test polymorphism - base class pointers to derived objects
+    Monster* monsters[3];
+    monsters[0] = new Goblin();
+    monsters[1] = new Skeleton();
+    monsters[2] = new Dragon();
     
-    std::vector<Item*> loot = orc.dropLoot();
-    for (size_t i = 0; i < loot.size(); i++) {
-        delete loot[i];
+    for (int i = 0; i < 6; i++) {
+        monsters[i%3]->displayStats();
+        std::cout << monsters[i%3]->getAttackMessage() << std::endl;
+        int dmg = monsters[i%3]->calculateDamage();
+        std::cout << "Damage: " << dmg << std::endl;
+        std::cout << std::endl;
+    }
+    
+    // Clean up
+    for (int i = 0; i < 3; i++) {
+        delete monsters[i];
     }
     
     return 0;
