@@ -20,25 +20,10 @@
  */
 
 int main() {
-
-    Weapon sword("Iron Sword", "A sturdy blade", 5);
-    Armor shield("Wooden Shield", "Basic protection", 3);
-    Consumable potion("Health Potion", "Restores health", 20);
-
-    sword.displayInfo();
-    shield.displayInfo();
-    potion.displayInfo();
-
-    Item* item_ptr = &sword;
-    item_ptr->displayInfo();  // Should call Weapon version
-    item_ptr = &shield;
-    item_ptr->displayInfo();  // Should call Armor version
-    item_ptr = &potion;
-    item_ptr->displayInfo();  // Should call Consumable version 
-
-    potion.use();  // Should work
-    potion.use();  // Should print "already used"
-
+    Player hero("Alice");
+    hero.displayStats();
+    hero.takeDamage(20);  // Inherited method
+    hero.displayStats();
     return 0;
 }
 

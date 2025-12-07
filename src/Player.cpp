@@ -21,6 +21,10 @@ Player::Player(const std::string& name)
 //
 Player::~Player() {
     // TODO: Delete all inventory items
+    for (size_t i = 0; i < inventory.size(); ++i) {
+        delete inventory[i];   // delete each item
+    }
+    inventory.clear(); // clear the vector
 }
 
 
@@ -34,6 +38,38 @@ Player::~Player() {
 //
 void Player::displayStats() const {
     // TODO: Display comprehensive player stats
+    std::cout << "----- Player Stats -----" << std::endl;
+    std::cout << "Name: " << getName() << std::endl;
+    std::cout << "Level: " << level << std::endl;
+    std::cout << "HP: " << getCurrentHP() << "/" << getMaxHP() << std::endl;
+    int total_attack = getAttack();
+    if (equipped_weapon) {
+        total_attack += equipped_weapon->getValue();
+    }
+    std::cout << "Attack: " << total_attack << std::endl;
+
+    int total_defense = getDefense();
+    if (equipped_armor) {
+        total_defense += equipped_armor->getValue();
+    }
+    std::cout << "Defense: " << total_defense << std::endl;
+
+    std::cout << "Gold: " << gold << std::endl;
+    std::cout << "Experience: " << experience << std::endl;
+
+    if (equipped_weapon) {
+        std::cout << "Equipped Weapon: " << equipped_weapon->getName() << std::endl;
+    } else {
+        std::cout << "Equipped Weapon: None" << std::endl;
+    }
+
+    if (equipped_armor) {
+        std::cout << "Equipped Armor: " << equipped_armor->getName() << std::endl;
+    } else {
+        std::cout << "Equipped Armor: None" << std::endl;
+    }
+
+    std::cout << "------------------------" << std::endl;
 }
 
 
