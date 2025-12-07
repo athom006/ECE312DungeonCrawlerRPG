@@ -20,17 +20,14 @@
  */
 
 int main() {
-    Room room1("Room 1", "First room");
-    Room room2("Room 2", "Second room");
+    Room room("Armory", "Weapons everywhere");
+    room.addItem(new Weapon("Sword", "Sharp", 5));
+    room.setMonster(new Goblin());
     
-    room1.addExit("north", &room2);
-    room2.addExit("south", &room1);
+    room.display();
     
-    room1.display();
-    
-    Room* next = room1.getExit("north");
-    if (next) {
-        next->display();
+    if (room.hasMonster()) {
+        std::cout << "Monster present!" << std::endl;
     }
     
     return 0;
