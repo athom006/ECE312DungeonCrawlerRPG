@@ -80,7 +80,11 @@ void Player::displayStats() const {
 //
 int Player::calculateDamage() const {
     // TODO: Calculate damage with weapon bonus
-    return 0;  // REPLACE THIS
+    int base_damage = Character::calculateDamage();
+    if (equipped_weapon) {
+        base_damage += equipped_weapon->getValue();
+    }
+    return base_damage;
 }
 
 
@@ -213,6 +217,20 @@ Item* Player::getItem(const std::string& item_name) {
 //
 void Player::equipWeapon(const std::string& weapon_name) {
     // TODO: Equip weapon from inventory
+    Item* item = getItem(weapon_name);
+    if (item == NULL) {
+        std::cout << "Weapon not found in inventory." << std::endl;
+        return;
+    }
+    if (item->getType() != "Weapon") {
+        std::cout << "Item is not a weapon." << std::endl;
+        return;
+    }
+    if (equipped_weapon != NULL) {
+        std::cout << "Unequipping current weapon: " << equipped_weapon->getName() << std::endl;
+    }
+    equipped_weapon = item;
+    std::cout << "Equipped weapon: " << equipped_weapon->getName() << std::endl;
 }
 
 
@@ -224,6 +242,20 @@ void Player::equipWeapon(const std::string& weapon_name) {
 //
 void Player::equipArmor(const std::string& armor_name) {
     // TODO: Equip armor from inventory
+    Item* item = getItem(armor_name);
+    if (item == NULL) {
+        std::cout << "Armor not found in inventory." << std::endl;
+        return;
+    }
+    if (item->getType() != "Armor") {
+        std::cout << "Item is not armor." << std::endl;
+        return;
+    }
+    if (equipped_armor != NULL) {
+        std::cout << "Unequipping current armor: " << equipped_armor->getName() << std::endl;
+    }
+    equipped_armor = item;
+    std::cout << "Equipped armor: " << equipped_armor->getName() << std::endl;
 }
 
 
@@ -235,6 +267,12 @@ void Player::equipArmor(const std::string& armor_name) {
 //
 void Player::unequipWeapon() {
     // TODO: Unequip current weapon
+    if (equipped_weapon != NULL) {
+        std::cout << "Unequipping weapon: " << equipped_weapon->getName() << std::endl;
+        equipped_weapon = NULL;
+    } else {
+        std::cout << "No weapon is currently equipped." << std::endl;
+    }
 }
 
 
@@ -245,6 +283,12 @@ void Player::unequipWeapon() {
 //
 void Player::unequipArmor() {
     // TODO: Unequip current armor
+    if (equipped_armor != NULL) {
+        std::cout << "Unequipping armor: " << equipped_armor->getName() << std::endl;
+        equipped_armor = NULL;
+    } else {
+        std::cout << "No armor is currently equipped." << std::endl;
+    }
 }
 
 
@@ -262,6 +306,25 @@ void Player::unequipArmor() {
 //
 void Player::useItem(const std::string& item_name) {
     // TODO: Use consumable item
+    Item* item = getItem(item_name);
+    if (item == NULL) {
+        std::cout << "Item not found in inventory." << std::endl;
+        return;
+    }
+    if (item->getType() != "Consumable") {
+        std::cout << "Item is not a consumable." << std::endl;
+        return;
+    }
+    Consumable* consumable = static_cast<Consumable*>(item);
+    if (consumable->isUsed()) {
+        std::cout << "Consumable has already been used." << std::endl;
+        return;
+    }
+    int healing_amount = consumable->getHealingAmount();
+    heal(healing_amount);
+    consumable->use();
+    removeItem(item_name);
+    std::cout << "Used consumable: " << item_name << std::endl;
 }
 
 
