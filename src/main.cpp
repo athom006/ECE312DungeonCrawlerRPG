@@ -20,12 +20,6 @@
  */
 
 int main() {
-    Game game;
-    // Can't test much yet, but should compile
-    return 0;
-}
-
-/*int main() {
     // Seed random number generator for combat calculations
     // This ensures different random numbers each time the game runs
     srand(static_cast<unsigned int>(time(0)));
@@ -46,4 +40,4 @@ int main() {
     
     // Normal exit
     return 0;
-}*/
+}

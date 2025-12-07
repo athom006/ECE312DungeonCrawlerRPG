@@ -172,6 +172,33 @@ void Game::connectRooms(const std::string& room1_name, const std::string& direct
 //
 void Game::run() {
     // TODO: Implement main game loop
+    std::cout << "=== Welcome to Dungeon Crawler RPG ===" << std::endl;
+    std::cout << "Enter your character's name: ";
+    std::string name;
+    std::getline(std::cin, name);
+    player = new Player(name);
+    initializeWorld();
+    createStartingInventory();
+    current_room->display();
+    current_room->markVisited();
+    game_over = false;
+    while (!game_over) {
+        std::cout << "> ";
+        std::string command;
+        std::getline(std::cin, command);
+        std::transform(command.begin(), command.end(), command.begin(), ::tolower);
+        processCommand(command);
+        if (victory) {
+            std::cout << "Congratulations! You have won the game!" << std::endl;
+            game_over = true;
+        }
+        if (!player->isAlive()) {
+            std::cout << "You have been defeated. Game over." << std::endl;
+            game_over = true;
+        }
+    }
+    delete player;
+    player = NULL;
 }
 
 
@@ -194,6 +221,35 @@ void Game::run() {
 //
 void Game::processCommand(const std::string& command) {
     // TODO: Parse and dispatch command
+    std::istringstream iss(command);
+    std::string verb;
+    iss >> verb;
+    std::string object;
+    std::getline(iss, object);
+    object.erase(0, object.find_first_not_of(" ")); // Trim leading spaces
+    if (verb == "go" || verb == "move") {
+        move(object);
+    } else if (verb == "look" || verb == "l") {
+        look();
+    } else if (verb == "attack" || verb == "fight") {
+        attack();
+    } else if (verb == "pickup" || verb == "get" || verb == "take") {
+        pickupItem(object);
+    } else if (verb == "inventory" || verb == "i") {
+        inventory();
+    } else if (verb == "use") {
+        useItem(object);
+    } else if (verb == "equip" || verb == "e") {
+        equip(object);
+    } else if (verb == "stats") {
+        player->displayStats();
+    } else if (verb == "help" || verb == "h" || verb == "?") {
+        help();
+    } else if (verb == "quit" || verb == "exit") {
+        game_over = true;
+    } else {
+        std::cout << "Unknown command. Type 'help' for a list of commands." << std::endl;
+    }
 }
 
 
@@ -210,6 +266,18 @@ void Game::processCommand(const std::string& command) {
 //
 void Game::move(const std::string& direction) {
     // TODO: Move to adjacent room
+    if (current_room->hasMonster()) {
+        std::cout << "A monster blocks your path! You must defeat it first." << std::endl;
+        return;
+    }
+    Room* next_room = current_room->getExit(direction);
+    if (next_room) {
+        current_room = next_room;
+        current_room->display();
+        current_room->markVisited();
+    } else {
+        std::cout << "You can't go that way!" << std::endl;
+    }
 }
 
 
@@ -219,6 +287,7 @@ void Game::move(const std::string& direction) {
 //
 void Game::look() {
     // TODO: Display current room
+    current_room->display();
 }
 
 
@@ -230,6 +299,12 @@ void Game::look() {
 //
 void Game::attack() {
     // TODO: Attack monster in room
+    Monster* monster = current_room->getMonster();
+    if (!monster || !monster->isAlive()) {
+        std::cout << "There is no monster here to attack." << std::endl;
+        return;
+    }
+    combat(monster);
 }
 
 
@@ -275,6 +350,14 @@ void Game::combat(Monster* monster) {
 //
 void Game::pickupItem(const std::string& item_name) {
     // TODO: Pick up item from room
+    Item* item = current_room->getItem(item_name);
+    if (item) {
+        player->addItem(item);
+        current_room->removeItem(item_name);
+        std::cout << "You picked up: " << item->getName() << std::endl;
+    } else {
+        std::cout << "There is no item named '" << item_name << "' here." << std::endl;
+    }   
 }
 
 
@@ -282,6 +365,7 @@ void Game::pickupItem(const std::string& item_name) {
 //
 void Game::inventory() {
     // TODO: Display player inventory
+    player->displayInventory();
 }
 
 
@@ -291,6 +375,7 @@ void Game::inventory() {
 //
 void Game::useItem(const std::string& item_name) {
     // TODO: Use item from inventory
+    player->useItem(item_name);
 }
 
 
@@ -305,6 +390,20 @@ void Game::useItem(const std::string& item_name) {
 //
 void Game::equip(const std::string& item_name) {
     // TODO: Equip weapon or armor
+    Item* item = player->getItem(item_name);
+    if (!item) {
+        std::cout << "You don't have an item named '" << item_name << "'." << std::endl;
+        return;
+    }
+    if (item->getType() == "Weapon") {
+        player->equipWeapon(item_name);
+        std::cout << "You equipped the weapon: " << item->getName() << std::endl;
+    } else if (item->getType() == "Armor") {
+        player->equipArmor(item_name);
+        std::cout << "You equipped the armor: " << item->getName() << std::endl;
+    } else {
+        std::cout << "You can't equip that type of item." << std::endl;
+    }
 }
 
 
@@ -326,4 +425,16 @@ void Game::equip(const std::string& item_name) {
 //
 void Game::help() {
     // TODO: Display help message
+    std::cout << "=== Available Commands ===" << std::endl;
+    std::cout << "go <direction>  - Move in specified direction (north, south, east, west)" << std::endl;
+    std::cout << "look            - Look around the current room" << std::endl;
+    std::cout << "attack          - Attack the monster in the room" << std::endl;
+    std::cout << "pickup <item>   - Pick up an item from the room" << std::endl;
+    std::cout << "inventory       - Show your inventory" << std::endl;
+    std::cout << "use <item>      - Use a consumable item from your inventory" << std::endl;
+    std::cout << "equip <item>    - Equip a weapon or armor from your inventory" << std::endl;
+    std::cout << "stats           - Show your character stats" << std::endl;
+    std::cout << "help            - Show this help message" << std::endl;
+    std::cout << "quit            - Exit the game" << std::endl;
+    std::cout << "==========================" << std::endl;
 }

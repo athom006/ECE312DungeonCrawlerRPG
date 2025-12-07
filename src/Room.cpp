@@ -55,8 +55,8 @@ void Room::display() const {
         for (size_t i = 0; i < items.size(); i++) {
             std::cout << "  - " << items[i]->getName() << std::endl;
         }
+            std::cout << std::endl;
     }
-    std::cout << std::endl;
     displayExits();
     std::cout << "========================================" << std::endl;
     std::cout << std::endl;
