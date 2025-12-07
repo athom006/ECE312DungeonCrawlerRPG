@@ -20,8 +20,19 @@
  */
 
 int main() {
-    Room entrance("Entrance", "A dark corridor");
-    entrance.display();
+    Room room1("Room 1", "First room");
+    Room room2("Room 2", "Second room");
+    
+    room1.addExit("north", &room2);
+    room2.addExit("south", &room1);
+    
+    room1.display();
+    
+    Room* next = room1.getExit("north");
+    if (next) {
+        next->display();
+    }
+    
     return 0;
 }
 

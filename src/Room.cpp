@@ -97,6 +97,9 @@ std::cout << "Exits: ";
 //
 void Room::addExit(const std::string& direction, Room* room) {
     // TODO: Add exit to map
+    if (room != NULL) {
+        exits[direction] = room;
+    }
 }
 
 
@@ -108,7 +111,11 @@ void Room::addExit(const std::string& direction, Room* room) {
 //
 Room* Room::getExit(const std::string& direction) const {
     // TODO: Look up and return exit
-    return NULL;  // REPLACE THIS
+    std::map<std::string, Room*>::const_iterator it = exits.find(direction);
+    if (it != exits.end()) {
+        return it->second;
+    }
+    return NULL;
 }
 
 
@@ -117,7 +124,11 @@ Room* Room::getExit(const std::string& direction) const {
 // - Check if direction exists in exits map
 bool Room::hasExit(const std::string& direction) const {
     // TODO: Check if exit exists
-    return false;  // REPLACE THIS
+    std::map<std::string, Room*>::const_iterator it = exits.find(direction);
+    if (it != exits.end()) {
+        return true;
+    }
+    return false;
 }
 
 
