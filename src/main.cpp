@@ -20,16 +20,8 @@
  */
 
 int main() {
-    Room room("Armory", "Weapons everywhere");
-    room.addItem(new Weapon("Sword", "Sharp", 5));
-    room.setMonster(new Goblin());
-    
-    room.display();
-    
-    if (room.hasMonster()) {
-        std::cout << "Monster present!" << std::endl;
-    }
-    
+    Game game;
+    // Can't test much yet, but should compile
     return 0;
 }
 
