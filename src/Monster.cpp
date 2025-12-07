@@ -25,6 +25,10 @@ Monster::Monster(const std::string& name, int hp, int attack, int defense,
 // - Clear the vector after deleting items
 //
 Monster::~Monster() {
+    for (size_t i = 0; i < loot_table.size(); ++i) {
+        delete loot_table[i];
+    }
+    loot_table.clear();
 }
 
 
@@ -36,6 +40,7 @@ Monster::~Monster() {
 //
 void Monster::displayStats() const {
     // TODO: Display monster stats
+    std::cout << getName() << " [HP: " << getCurrentHP() << "/" << getMaxHP() << "]" << std::endl;
 }
 
 
@@ -46,6 +51,9 @@ void Monster::displayStats() const {
 //
 void Monster::addLoot(Item* item) {
     // TODO: Add item to loot table
+    if (item != NULL) {
+        loot_table.push_back(item);
+    }
 }
 
 
@@ -58,9 +66,11 @@ void Monster::addLoot(Item* item) {
 //
 std::vector<Item*> Monster::dropLoot() {
     // TODO: Return loot and transfer ownership
-    std::vector<Item*> empty;
-    return empty;  // REPLACE THIS
+    std::vector<Item*> dropped_loot = loot_table;
+    loot_table.clear();
+    return dropped_loot;
 }
+
 
 
 // TODO: Implement getAttackMessage (base version)
@@ -71,7 +81,7 @@ std::vector<Item*> Monster::dropLoot() {
 //
 std::string Monster::getAttackMessage() const {
     // TODO: Return attack message
-    return "";  // REPLACE THIS
+    return getName() + " attacks!";
 }
 
 

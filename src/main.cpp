@@ -20,10 +20,17 @@
  */
 
 int main() {
-    Player hero("Dana");
-    hero.displayStats();
-    hero.gainExperience(100);  // Should trigger level up
-    hero.displayStats();
+    Monster orc("Orc", 50, 8, 3, 20, 10);
+    orc.addLoot(new Consumable("Potion", "Heals", 15));
+    orc.displayStats();
+    orc.takeDamage(30);
+    orc.getAttackMessage();
+    
+    std::vector<Item*> loot = orc.dropLoot();
+    for (size_t i = 0; i < loot.size(); i++) {
+        delete loot[i];
+    }
+    
     return 0;
 }
 
