@@ -20,25 +20,8 @@
  */
 
 int main() {
-    // Test polymorphism - base class pointers to derived objects
-    Monster* monsters[3];
-    monsters[0] = new Goblin();
-    monsters[1] = new Skeleton();
-    monsters[2] = new Dragon();
-    
-    for (int i = 0; i < 6; i++) {
-        monsters[i%3]->displayStats();
-        std::cout << monsters[i%3]->getAttackMessage() << std::endl;
-        int dmg = monsters[i%3]->calculateDamage();
-        std::cout << "Damage: " << dmg << std::endl;
-        std::cout << std::endl;
-    }
-    
-    // Clean up
-    for (int i = 0; i < 3; i++) {
-        delete monsters[i];
-    }
-    
+    Room entrance("Entrance", "A dark corridor");
+    entrance.display();
     return 0;
 }
 
