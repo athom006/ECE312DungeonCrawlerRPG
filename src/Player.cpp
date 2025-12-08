@@ -324,7 +324,6 @@ void Player::useItem(const std::string& item_name) {
     heal(healing_amount);
     consumable->use();
     removeItem(item_name);
-    std::cout << "Used consumable: " << item_name << std::endl;
 }
 
 
